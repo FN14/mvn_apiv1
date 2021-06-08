@@ -29,10 +29,10 @@ import javax.validation.constraints.NotEmpty;
  */
 @Entity 
 @Table(name="tb_product")
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
     generator = ObjectIdGenerators.PropertyGenerator.class,
     property = "id" 
-)
+)*/
 public class Product implements Serializable { 
          
     @Id
@@ -55,6 +55,7 @@ public class Product implements Serializable {
         joinColumns = @JoinColumn(name="product_id"),
         inverseJoinColumns = @JoinColumn(name = "supplier_id") 
     )
+    @JsonManagedReference
     private Set<Supplier> suppliers;
 
     public Long getId() {

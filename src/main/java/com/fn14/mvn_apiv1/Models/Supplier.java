@@ -25,10 +25,10 @@ import javax.persistence.Table;
  */ 
 @Entity 
 @Table(name="tb_supplier") 
-@JsonIdentityInfo(
+/*@JsonIdentityInfo(
     generator = ObjectIdGenerators.PropertyGenerator.class,
     property = "id"
-)
+)*/
 public class Supplier implements Serializable {
     @Id 
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -40,10 +40,9 @@ public class Supplier implements Serializable {
     @Column(name="supplier_email")
     private String email;
     @ManyToMany(mappedBy ="suppliers")
+    @JsonBackReference
     private Set<Product> products;
     
-    
-
     public Long getId() {
         return id;
     }

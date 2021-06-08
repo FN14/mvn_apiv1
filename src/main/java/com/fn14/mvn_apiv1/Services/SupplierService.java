@@ -29,7 +29,7 @@ public class SupplierService {
     
     public Supplier findById(Long id){
         Optional<Supplier> optSupp = supplierRepo.findById(id);
-        if(optSupp.isPresent()){
+        if(!optSupp.isPresent()){
             return null;
         }
         return optSupp.get();

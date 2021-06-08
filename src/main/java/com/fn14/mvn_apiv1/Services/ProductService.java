@@ -8,6 +8,7 @@ package com.fn14.mvn_apiv1.Services;
 import com.fn14.mvn_apiv1.Models.Product;
 import com.fn14.mvn_apiv1.Models.Supplier;
 import com.fn14.mvn_apiv1.Repository.ProductRepo;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
@@ -25,6 +26,9 @@ public class ProductService {
     
     @Autowired
     private ProductRepo productRepo;
+    
+    @Autowired
+    private SupplierService supplierService;
     
     public Product create(Product product){
         return productRepo.save(product);
@@ -57,6 +61,26 @@ public class ProductService {
         }
         product.getSuppliers().add(supplier);
         create(product);
+    }
+    
+    public Product findByProductName(String name){
+        return productRepo.findProductByName(name);
+    }
+    
+    public List<Product> findByProductNameLike(String name){
+        return productRepo.findProductByNameLike("%"+name+"%");
+    }
+    
+    public List<Product> findByProductCategory(Long id){
+        return productRepo.findProductByCategory(id);
+    }
+    
+    public List<Product> findBySupplier(Long supplierId){
+        Supplier supplier = supplierService.findById(supplierId);
+        if(supplier == null){
+            return new ArrayList<>();
+        }
+        return productRepo.findByProductSupplier(supplier);
     }
     
 }

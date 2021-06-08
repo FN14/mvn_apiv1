@@ -8,7 +8,9 @@ package com.fn14.mvn_apiv1.Controllers;
 import com.fn14.mvn_apiv1.Models.Product;
 import com.fn14.mvn_apiv1.Services.ProductService;
 import com.fn14.mvn_apiv1.Dto.ResponseData;
+import com.fn14.mvn_apiv1.Dto.SearchData;
 import com.fn14.mvn_apiv1.Models.Supplier;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -87,4 +89,26 @@ public class ProductController {
     public void addSupplier(@RequestBody Supplier supplier, @PathVariable("id") Long productId){
         productService.addSupplier(supplier, productId);
     }
+    
+    @PostMapping("/search/name")
+    public Product getProductByName(@RequestBody SearchData searchData){
+        return productService.findByProductName(searchData.getSearchKey());
+    }
+    
+    @PostMapping("/search/namelike")
+    public List<Product> getProductByNameLike(@RequestBody SearchData searchData){
+        return productService.findByProductNameLike(searchData.getSearchKey()); 
+    }
+    
+    @GetMapping("/search/category/{id}")
+    public List<Product> getProductByCategory(@PathVariable("id") Long id){
+        return productService.findByProductCategory(id); 
+    }
+    
+    @GetMapping("/search/supplier/{supplierId}")
+    public List<Product> getProductBySupplier(@PathVariable("supplierId") Long supplierId){
+        return productService.findBySupplier(supplierId); 
+    }
+    
+    
 }

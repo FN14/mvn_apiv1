@@ -6,6 +6,7 @@
 package com.fn14.mvn_apiv1.Services;
 
 import com.fn14.mvn_apiv1.Models.Product;
+import com.fn14.mvn_apiv1.Models.Supplier;
 import com.fn14.mvn_apiv1.Repository.ProductRepo;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,15 @@ public class ProductService {
     
     public List<Product> findByName(String name){
         return productRepo.findByNameContains(name);
+    }
+      
+    public void addSupplier(Supplier supplier, Long productId){
+        Product product = findById(productId);
+        if(product == null){
+            throw new RuntimeException("Product with ID: " +productId+ " not found");
+        }
+        product.getSuppliers().add(supplier);
+        create(product);
     }
     
 }

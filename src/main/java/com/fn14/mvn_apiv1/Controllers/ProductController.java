@@ -7,13 +7,13 @@ package com.fn14.mvn_apiv1.Controllers;
 
 import com.fn14.mvn_apiv1.Models.Product;
 import com.fn14.mvn_apiv1.Services.ProductService;
-import com.fn14.mvn_apiv1.Utils.ResponseData;
+import com.fn14.mvn_apiv1.Dto.ResponseData;
+import com.fn14.mvn_apiv1.Models.Supplier;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -73,6 +73,7 @@ public class ProductController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(resData);
         }
         resData.setStatus(true);
+        resData.getMessages().add("Data Successfully Update");
         resData.setPayload(productService.create(product));
         return ResponseEntity.ok(resData);
     }
@@ -80,5 +81,10 @@ public class ProductController {
     @PostMapping("/del/{id}")
     public void deleteById(@PathVariable("id") Long id){
         productService.removeById(id);
+    } 
+    
+    @PostMapping("/{id}")
+    public void addSupplier(@RequestBody Supplier supplier, @PathVariable("id") Long productId){
+        productService.addSupplier(supplier, productId);
     }
 }
